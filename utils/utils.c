@@ -10,23 +10,28 @@ long int findSize(char fileName[]) {
   fclose(fd);
   return res;
 }
-/*
-*{
-var fileName string
-if useRealInput {
-fileName = "input"
-} else {
-fileName = "example"
-}
-file_data, err := fs.ReadFile(os.DirFS(".."), fmt.Sprintf("%s.txt", fileName))
-if err != nil {
-panic(err)
-}
-var lines []string = strings.Split(string(file_data), "\n")
-return lines
 
-}*/
-char **getLines(bool isRealInput, int day) {
+int getFileSize(const char *fileName) {
+  FILE *fd = fopen(fileName, "r");
+  int count = 0;
+  while ((char)fgetc(fd) != EOF) {
+    count++;
+  }
+  fclose(fd);
+  return count;
+}
+
+int countChar(const char *source, const char target) {
+  int count = 0;
+  for (int i = 0; i < strlen(source); i++) {
+    if (source[i] == target) {
+      count++;
+    }
+  }
+  return count;
+}
+
+char **getLines(const bool isRealInput, const int day) {
   char *fileType;
   if (isRealInput) {
     fileType = "input.txt";
@@ -35,18 +40,12 @@ char **getLines(bool isRealInput, int day) {
   }
   char fileName[20];
   sprintf(fileName, "day%d\\%s", day, fileType);
-  printf("%s\n",fileName);
   FILE *fd = fopen(fileName, "r");
   char cwd[100];
   _getcwd(cwd, sizeof(cwd));
-  printf("+%s\n", cwd);
-  char buffer[100];
-  char *a = fgets(buffer, sizeof(buffer), fd);
-  printf("*%s\n", a);
-  char **buf = malloc(5 * sizeof(char *));
-  if (!buf) {
-    return NULL;
-  }
+  char buffer[getFileSize(fileName)];
+  char *a = fgets(buffer, getFileSize(fileName), fd);
+  char **buf = malloc(countChar(buffer, '\n') * sizeof(char *));
   buf[0] = buffer;
   return buf;
 }
