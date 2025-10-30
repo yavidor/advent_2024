@@ -5,6 +5,6 @@
 int main(void) {
   printf("Hello world\n");
   char **buf = getLines(false, 1);
-  printf("%s", *buf);
+  printf("%s", buf[1]);
   return 0;
 }

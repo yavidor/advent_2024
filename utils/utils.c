@@ -43,9 +43,9 @@ char **getLines(const bool isRealInput, const int day) {
   FILE *fd = fopen(fileName, "r");
   char cwd[100];
   _getcwd(cwd, sizeof(cwd));
-  char buffer[getFileSize(fileName)];
-  char *a = fgets(buffer, getFileSize(fileName), fd);
-  char **buf = malloc(countChar(buffer, '\n') * sizeof(char *));
-  buf[0] = buffer;
+  const int fileSize = getFileSize(fileName);
+  char **buf = malloc(fileSize * sizeof(char));
+
+  fclose(fd);
   return buf;
 }
