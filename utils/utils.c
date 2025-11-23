@@ -45,7 +45,7 @@ char **getLines(const bool isRealInput, const int day) {
   _getcwd(cwd, sizeof(cwd));
   const int fileSize = getFileSize(fileName);
   char **buf = malloc(fileSize * sizeof(char));
-
+  char *tempBuf = malloc(fileSize * sizeof(char));
   fclose(fd);
   return buf;
 }
